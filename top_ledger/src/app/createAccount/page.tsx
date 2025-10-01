@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { useAuth } from '@/hooks/useAuth'
 import { AuthForm } from '@/components/auth/AuthForm'
 
-export default function Login() {
+export default function CreateAccount() {
   const router = useRouter()
   const { isAuthenticated } = useAuth()
 
@@ -18,10 +18,10 @@ export default function Login() {
 
   return (
     <AuthForm
-      mode="login"
-      title="Login"
-      buttonText="Login"
-      loadingText="Logging in..."
+      mode="signup"
+      title="Create Account"
+      buttonText="Create Account"
+      loadingText="Creating account..."
     />
   )
 }
