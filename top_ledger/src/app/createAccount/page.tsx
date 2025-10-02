@@ -20,8 +20,6 @@ export default function CreateAccount() {
     <AuthForm
       mode="signup"
       title="Create Account"
-      buttonText="Create Account"
-      loadingText="Creating account..."
     />
   )
 }

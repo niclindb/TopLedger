@@ -9,19 +9,21 @@ import { FormButton } from '@/components/ui/FormButton'
 interface AuthFormProps {
   mode: 'login' | 'signup'
   title: string
-  buttonText: string
-  loadingText: string
 }
 
-export function AuthForm({ mode, title, buttonText }: AuthFormProps) {
+export function AuthForm({ mode, title }: AuthFormProps) {
   const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
 
+  const labels = mode === 'login'
+    ? { button: 'Login', loading: 'Logging in...' }
+    : { button: 'Create Account', loading: 'Creating account...' }
+
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault() // prevents page
+    e.preventDefault() // prevents page reload
     setLoading(true)
     setMessage('')
 
@@ -81,10 +83,8 @@ export function AuthForm({ mode, title, buttonText }: AuthFormProps) {
           disabled={loading}
         />
         
-        <FormButton
-          loading={loading}
-        >
-          {buttonText}
+        <FormButton loading={loading} loadingText={labels.loading}>
+          {labels.button}
         </FormButton>
       </form>
       

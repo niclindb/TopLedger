@@ -20,8 +20,6 @@ export default function Login() {
     <AuthForm
       mode="login"
       title="Login"
-      buttonText="Login"
-      loadingText="Logging in..."
     />
   )
 }
