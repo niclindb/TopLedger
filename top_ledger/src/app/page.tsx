@@ -21,7 +21,9 @@ export default function Home() {
           <button onClick={() => supabase.auth.signOut()}>
             Sign Out
           </button>
+          
           <p>profile info here</p>
+          <Link href="/profile">Profile</Link>
         </div>
       ) : (
         <div>

@@ -5,6 +5,7 @@ import { supabase } from '@/lib/supabase'
 import { useRouter } from 'next/navigation'
 import { FormInput } from '@/components/ui/FormInput'
 import { FormButton } from '@/components/ui/FormButton'
+import Link from "next/link";
 
 interface AuthFormProps {
   mode: 'login' | 'signup'
@@ -17,6 +18,7 @@ export function AuthForm({ mode, title }: AuthFormProps) {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
+  const [username, setUsername] = useState('')
 
   const labels = mode === 'login'
     ? { button: 'Login', loading: 'Logging in...' }
@@ -41,16 +43,30 @@ export function AuthForm({ mode, title }: AuthFormProps) {
           router.replace('/')
         }
       } else {
-        const { error } = await supabase.auth.signUp({
-          email,
-          password,
+        // Call signup API
+        const response = await fetch('/api/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            username,
+            email,
+            password,
+          }),
         })
 
-        if (error) {
-          setMessage(error.message)
-        } else {
+        const data = await response.json()
+
+        if (response.ok) {
           setMessage('Account created successfully!')
+          await supabase.auth.signInWithPassword({
+          email,
+          password,
+          })
           router.replace('/')
+        } else {
+          setMessage(data.error || 'Signup failed')
         }
       }
     } catch (error) {
@@ -73,6 +89,16 @@ export function AuthForm({ mode, title }: AuthFormProps) {
           required
           disabled={loading}
         />
+        {mode != "login"&&
+          <FormInput
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+          disabled={loading}
+        />
+        }
         
         <FormInput
           type="password"
@@ -89,12 +115,26 @@ export function AuthForm({ mode, title }: AuthFormProps) {
       </form>
       
       {message && (
+        <>
         <p className={`mt-4 text-center ${
           message.includes('successful') ? 'text-green-600' : 'text-red-600'
         }`}>
           {message}
         </p>
+        
+        </>
       )}
+      {message.includes('taken') && (
+        <>
+        <p className='mt-4 text-center'>
+          <Link href="/login">Already have account? Sign in</Link>
+          </p></>
+      )}
+      {mode === 'login' && message.includes('Invalid') && (
+        <>
+        <p className='mt-4 text-center'><Link href="/createAccount">Don't Have an Account? Create One Here</Link></p></>
+      )}
+
     </div>
   )
 }
