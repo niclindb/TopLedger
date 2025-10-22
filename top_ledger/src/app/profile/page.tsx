@@ -2,7 +2,7 @@
 
 import { useAuth } from '@/hooks/useAuth'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { supabase } from '@/lib/supabase'
 
 interface ProfileData {
@@ -21,38 +21,38 @@ export default function Profile() {
   const [profile, setProfile] = useState<ProfileData | null>(null)
   const [profileLoading, setProfileLoading] = useState(true)
 
-  useEffect(() => {
-    if (!loading && !isAuthenticated) {
-      router.replace('/login')
-      return
-    }
+  const fetchProfile = useCallback(async () => { // this keeps fetchProfile from being called every render
+  console.log("id")
+  try {
+    const { data, error } = await supabase
+      .from('Users')
+      .select('*')
+      .eq('id', user?.id)
+      .single()
 
-    if (user) {
-      console.log("id: ", user.id)
-      fetchProfile()
-    }
-  }, [user, loading, isAuthenticated, router])
-
-  const fetchProfile = async () => {
-    console.log("id")
-    try {
-      const { data, error } = await supabase
-        .from('Users')
-        .select('*')
-        .eq('id', user?.id)
-        .single()
-
-      if (error) {
-        console.error('Error fetching profile:', error)
-      } else {
-        setProfile(data)
-      }
-    } catch (error) {
+    if (error) {
       console.error('Error fetching profile:', error)
-    } finally {
-      setProfileLoading(false)
+    } else {
+      setProfile(data)
     }
+  } catch (error) {
+    console.error('Error fetching profile:', error)
+  } finally {
+    setProfileLoading(false)
   }
+}, [user?.id]) 
+
+useEffect(() => {
+  if (!loading && !isAuthenticated) {
+    router.replace('/login')
+    return
+  }
+
+  if (user) {
+    console.log("id: ", user.id)
+    fetchProfile()
+  }
+}, [user, loading, isAuthenticated, router, fetchProfile])
 
   if (loading || profileLoading) {
     return <div>Loading profile...</div>

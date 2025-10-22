@@ -37,6 +37,7 @@ export default function OddsPage() {
 
   useEffect(() => {
     if (!selectedSport) return
+    
     const loadGames = async () => {
       setLoadingGames(true)
       setError(null)

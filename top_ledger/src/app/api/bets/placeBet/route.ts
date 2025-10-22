@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
 import { createClient } from "@supabase/supabase-js";
 
 
@@ -58,6 +57,7 @@ export async function POST(request: NextRequest) {
             placed_at: now,
             status: 'pending',
             user_id: userId,
+            start_time: betData.startsAt,
             }
         ]);
         if(error){

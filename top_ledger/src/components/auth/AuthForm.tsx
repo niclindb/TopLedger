@@ -132,7 +132,7 @@ export function AuthForm({ mode, title }: AuthFormProps) {
       )}
       {mode === 'login' && message.includes('Invalid') && (
         <>
-        <p className='mt-4 text-center'><Link href="/createAccount">Don't Have an Account? Create One Here</Link></p></>
+        <p className='mt-4 text-center'><Link href="/createAccount">{`Don't Have an Account? Create One Here`}</Link></p></>
       )}
 
     </div>
