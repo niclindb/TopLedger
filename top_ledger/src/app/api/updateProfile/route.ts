@@ -9,7 +9,7 @@ const supabase = createClient(
 export async function POST(request: NextRequest) {
   try {
     const { betId } = await request.json();
-
+    
     if (!betId) {
       return NextResponse.json({ error: "Missing betId" }, { status: 400 });
     }
@@ -21,7 +21,6 @@ export async function POST(request: NextRequest) {
     .single();
 
     await supabase.rpc('get_user_stats', { user_id_input: betRow?.user_id });
-    console.log("sent to supabase")
     
     return NextResponse.json({ ok: true, betId });
   } catch (error) {
