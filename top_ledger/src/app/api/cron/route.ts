@@ -170,9 +170,9 @@ export async function GET() {
               const betOutcome = determineBetOutcome(bet, gameResult);
               console.log("betOucoe", betOutcome)
               // Update the bet in Supabase
-              let payout =  bet.potential_payout
-              if(betOutcome.outcome == 'lost') payout = 0
-              else if(betOutcome.outcome == 'push') payout = bet.stake
+              let payout =  bet.potential_payout - bet.stake
+              if(betOutcome.outcome == 'lost') payout = 0 - bet.stake
+              else if(betOutcome.outcome == 'push') payout = 0
               await supabase
                 .from('Bets')
                 .update({
