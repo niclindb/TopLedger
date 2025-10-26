@@ -67,7 +67,6 @@ export async function POST(request: NextRequest) {
                 { status: 500 }
             )
         }
-
         return NextResponse.json({ success: true, data });
     } catch (error) {
         console.error('Error parsing request body:', error)

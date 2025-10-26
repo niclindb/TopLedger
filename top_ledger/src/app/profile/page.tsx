@@ -72,7 +72,7 @@ useEffect(() => {
           <p><strong>Total Profit:</strong> ${profile.total_profit?.toFixed(2) || '0.00'}</p>
           <p><strong>Profit Last Month:</strong> ${profile.profit_last_month?.toFixed(2) || '0.00'}</p>
           <p><strong>Profit Last Year:</strong> ${profile.profit_last_year?.toFixed(2) || '0.00'}</p>
-          <p><strong>Win Percentage:</strong> {(profile.overall_win_percent * 100)?.toFixed(1) || '0.0'}%</p>
+          <p><strong>Win Percentage:</strong> {(profile.overall_win_percent)?.toFixed(1) || '0.0'}%</p>
         </div>
       ) : (
         <p>No profile data found</p>

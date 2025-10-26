@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/lib/supabase";
+import Leaderboard from "@/components/ui/Leaderboard";
+
 
 export default function Home() {
   const { user, loading, isAuthenticated } = useAuth()
@@ -13,7 +15,6 @@ export default function Home() {
   return (
     <>
     <div>
-      <h1>Top Ledger</h1>
       
       {isAuthenticated ? (
         <div>
@@ -32,7 +33,7 @@ export default function Home() {
         </div>
       )}
     </div>
-    <div><p>leaderboards here</p></div>
+    <Leaderboard/>
     </>
   );
 }
