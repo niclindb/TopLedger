@@ -63,6 +63,9 @@ function determineBetOutcome(bet: any, gameResult: any) {
     const teamA = gameResult.scores[0];
     const teamB = gameResult.scores[1];
     let outcome = "pending";
+    console.log("teamA:", teamA)
+    console.log("teamB:", teamB)
+    console.log("bet:", bet.bet_point)
   
     switch (true) {
       // Moneyline bet
@@ -71,7 +74,7 @@ function determineBetOutcome(bet: any, gameResult: any) {
         outcome = bet.bet_label === winner ? "won" : "lost";
         break;
       }
-  
+      
       // Under bet
       case bet.bet_label === "Under": {
         if (totalScore < bet.bet_point) outcome = "won";
@@ -91,6 +94,7 @@ function determineBetOutcome(bet: any, gameResult: any) {
       // Spread bet — team A
       case bet.bet_label === teamA.name: {
         const diff = teamA.score - teamB.score + bet.bet_point;
+        console.log("diff", diff)
         if (diff > 0) outcome = "won";
         else if (diff < 0) outcome = "lost";
         else outcome = "push";
@@ -99,6 +103,7 @@ function determineBetOutcome(bet: any, gameResult: any) {
       // Spread bet — team B
       case bet.bet_label === teamB.name: {
         const diff = teamB.score - teamA.score + bet.bet_point;
+        console.log("diff", diff)
         if (diff > 0) outcome = "won";
         else if (diff < 0) outcome = "lost";
         else outcome = "push";

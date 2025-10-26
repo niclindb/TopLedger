@@ -4,6 +4,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState, useCallback } from 'react'
 import { supabase } from '@/lib/supabase'
+import MyBets from '@/components/ui/MyBets'
 
 interface ProfileData {
   id: string
@@ -62,7 +63,9 @@ useEffect(() => {
     return null
   }
 
+
   return (
+    <>
     <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
       <h1 className="text-2xl font-bold text-center mb-6">Profile</h1>
       
@@ -77,6 +80,9 @@ useEffect(() => {
       ) : (
         <p>No profile data found</p>
       )}
+      
     </div>
+    <MyBets/>
+    </>
   )
 }

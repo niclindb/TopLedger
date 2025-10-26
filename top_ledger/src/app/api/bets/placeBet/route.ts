@@ -33,11 +33,15 @@ export async function POST(request: NextRequest) {
 
         const now = new Date().toISOString(); // placed_at
 
-        if (betData.startAt < now){
+        if (betData.startsAt < now){
             return NextResponse.json(
-                { error: 'Cannot place bet on already started game' },
-                { status: 400 }
-            )
+                {
+                  message: 'Cannot place bet on already started game',
+                  ok: true,
+                },
+                { status: 200 }
+              );
+              
         }
         const payout = calculatePayout(Number(betData.odds), Number(betData.stake));
         // Insert into db

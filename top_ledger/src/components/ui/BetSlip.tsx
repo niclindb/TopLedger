@@ -71,10 +71,13 @@ export default function BetSlip({
         console.error("Error placing bet:", errorData.message);
         return;
       }
+      const data = await response.json();
 
-      alert(
-        `You placed a bet on ${selectedBet.bet.label} for $${stake}. Potential payout: $${calculatePayout()}`
-      );
+      if (data.message === 'Cannot place bet on already started game')
+          alert(`Can't place bet game already start`)
+      else
+        alert(`You placed a bet on ${selectedBet.bet.label} for $${stake}. Potential payout: $${calculatePayout()}`);
+      
       onClose();
     } catch (error) {
       console.error("Network error placing bet:", error);

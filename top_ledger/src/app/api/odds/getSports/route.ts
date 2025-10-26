@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 
 type Sport = { id: string; name: string }
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   const apiKey = process.env.ODDS_KEY
   if (!apiKey) {
     return NextResponse.json(
