@@ -19,9 +19,9 @@ export async function POST(request: NextRequest) {
     .select("user_id")
     .eq("id", betId)
     .single();
-
+    console.log("userId:", betRow?.user_id)
     await supabase.rpc('get_user_stats', { user_id_input: betRow?.user_id });
-    
+
     return NextResponse.json({ ok: true, betId });
   } catch (error) {
     console.error("Error in POST /api route:", error);

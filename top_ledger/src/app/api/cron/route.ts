@@ -12,10 +12,10 @@ function getGameWinner(scores: any[] | null): string | null {
     ) {
       return null;
     }
-  
-    if (teamA.score === teamB.score) return 'Draw';
-  
-    return teamA.score > teamB.score ? teamA.name : teamB.name;
+    
+    if (+teamA.score === +teamB.score) return 'Draw'; // this operator makes sure we are using Number instead of string
+    return +teamA.score > +teamB.score ? teamA.name : teamB.name;
+    
   }
   
 async function getGameResult(gameId: string, sport: string) {
@@ -63,9 +63,6 @@ function determineBetOutcome(bet: any, gameResult: any) {
     const teamA = gameResult.scores[0];
     const teamB = gameResult.scores[1];
     let outcome = "pending";
-    console.log("teamA:", teamA)
-    console.log("teamB:", teamB)
-    console.log("bet:", bet.bet_point)
   
     switch (true) {
       // Moneyline bet
@@ -94,7 +91,6 @@ function determineBetOutcome(bet: any, gameResult: any) {
       // Spread bet — team A
       case bet.bet_label === teamA.name: {
         const diff = teamA.score - teamB.score + bet.bet_point;
-        console.log("diff", diff)
         if (diff > 0) outcome = "won";
         else if (diff < 0) outcome = "lost";
         else outcome = "push";
@@ -103,7 +99,6 @@ function determineBetOutcome(bet: any, gameResult: any) {
       // Spread bet — team B
       case bet.bet_label === teamB.name: {
         const diff = teamB.score - teamA.score + bet.bet_point;
-        console.log("diff", diff)
         if (diff > 0) outcome = "won";
         else if (diff < 0) outcome = "lost";
         else outcome = "push";
@@ -123,7 +118,6 @@ function determineBetOutcome(bet: any, gameResult: any) {
 
 export async function GET() {
   try {
-    console.log("cron job activated.")
 
     const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -154,8 +148,7 @@ export async function GET() {
         await Promise.all(
           bets.map(async (bet) => {
             try {
-              console.log(`Processing bet ${bet.id} for game ${bet.game_id}`);
-      
+            
               // Get game result from odds API
               const gameResult = await getGameResult(bet.game_id, bet.sport);
               if (!gameResult) {
@@ -168,7 +161,7 @@ export async function GET() {
       
               // Determine bet outcome
               const betOutcome = determineBetOutcome(bet, gameResult);
-              console.log("betOucoe", betOutcome)
+            
               // Update the bet in Supabase
               let payout =  bet.potential_payout - bet.stake
               if(betOutcome.outcome == 'lost') payout = 0 - bet.stake
@@ -184,6 +177,7 @@ export async function GET() {
               
               const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
             // Update user profile after bet settlement
+            console.log ("updating profile for:", bet.id)
             fetch(`${baseUrl}/api/updateProfile`, {
               method: 'POST',
               headers: {
