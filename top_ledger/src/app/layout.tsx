@@ -1,23 +1,12 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Sen, Bangers } from "next/font/google";
+import { Sen } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/ui/Header";
 
-
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
 const sen = Sen({
-  variable: '--font-sen',
-  subsets: ['latin'],
-  weight: ['400', '700'],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+  variable: "--font-sen",
   subsets: ["latin"],
+  weight: ["400", "700"],
 });
 
 export const metadata: Metadata = {
@@ -32,9 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${sen.variable} antialiased`}
-      >
+      <body className={`${sen.variable} antialiased`}>
         <Header />
         {children}
       </body>

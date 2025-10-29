@@ -67,19 +67,25 @@ export default function OddsPage() {
 
   return (
     <>
-      <BetSports
-        sports={sports}
-        selectedSport={selectedSport}
-        loadingSports={loadingSports}
-        onSelectSport={setSelectedSport}
-      />
+      {error ? (
+        <div className="text-red-500 text-center mt-8">{error}</div>
+      ) : (
+        <>
+          <BetSports
+            sports={sports}
+            selectedSport={selectedSport}
+            loadingSports={loadingSports}
+            onSelectSport={setSelectedSport}
+          />
 
-      <Games
-        selectedSport={selectedSport}
-        sports={sports}
-        loadingGames={loadingGames}
-        games={games}
-      />
+          <Games
+            selectedSport={selectedSport}
+            sports={sports}
+            loadingGames={loadingGames}
+            games={games}
+          />
+        </>
+      )}
     </>
   );
 }
