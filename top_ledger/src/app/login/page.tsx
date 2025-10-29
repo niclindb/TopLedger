@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/hooks/useAuth'
 import { AuthForm } from '@/components/auth/AuthForm'
+import Link from 'next/link'
 
 export default function Login() {
   const router = useRouter()
@@ -17,9 +18,25 @@ export default function Login() {
   }, [isAuthenticated, router])
 
   return (
-    <AuthForm
-      mode="login"
-      title="Login"
-    />
-  )
+<div
+  className="relative overflow-hidden"
+  style={{
+    backgroundImage: `url('/roulete.jpg')`,
+    backgroundPosition: 'top',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    height: 'calc(100vh - 65px)' // this accounts for header height
+  }}
+>
+    {/* Overlay for form area only */}
+    <div className="absolute inset-0 bg-[var(--background)] opacity-73"></div>
+
+    {/* Form container above overlay */}
+    <div className="relative flex justify-center pt-20">
+      <AuthForm mode="login" title="Login"/>
+    </div>
+  </div>
+
+  );
+
 }

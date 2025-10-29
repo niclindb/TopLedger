@@ -1,19 +1,39 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: white;
-    --foreground: black;
-  }
+  --background: #5c2018;
+  --light_color: #f3e0dc;
+  --blue_color: #4285f4;
+  --tan_color: #D4A59A;
+  --orange_color: #bc4639;
+  --font-sen: 'Sen', sans-serif;
 }
 
 body {
   background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--light_color);
+  font-family: var(--font-sen), sans-serif;
+}
+/* global CSS or Tailwind globals */
+.scrollbar-thin::-webkit-scrollbar {
+  height: 6px;
+  /* horizontal scrollbar height */
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: #4285f4;
+  /* accent color */
+  border-radius: 3px;
+}
+
+.scrollbar-thin {
+  -ms-overflow-style: auto;
+  /* IE 10+ */
+  scrollbar-width: thin;
+  /* Firefox */
+  scrollbar-color: #4285f4 transparent;
 }

@@ -44,34 +44,46 @@ export default function Leaderboard() {
   }, []);
 
   if (loading) return <p>Loading leaderboard...</p>;
-
   return (
-    <div className="p-4">
-      <h2 className="text-2xl font-bold mb-4">Leaderboard</h2>
-      <table className="min-w-full border border-gray-300">
-        <thead className="bg-gray-200">
-          <tr>
-            <th className="p-2 border">Rank</th>
-            <th className="p-2 border">Username</th>
-            <th className="p-2 border">Total Profit</th>
-            <th className="p-2 border">Win %</th>
-            <th className="p-2 border">Profit Last Month</th>
-            <th className="p-2 border">Profit Last Year</th>
+  <div className="p-6 m-4 bg-[var(--background)] rounded-xl border-2 border-[var(--tan_color)]">
+    <h2 className="text-3xl font-bold mb-6 text-[var(--light_color)] text-center">
+      Top Players
+    </h2>
+
+    <div>
+      <table className="min-w-full border-collapse rounded-lg">
+        <thead>
+          <tr className="border-b border-[var(--light_color)] bg-[var(--blue_color)] text-[var(--light_color)] text-xl font-bold">
+            <th className="p-3 uppercase">Rank</th>
+            <th className="p-3 uppercase">Player</th>
+            <th className="p-3 uppercase">Total Profit</th>
+            <th className="p-3 uppercase">Win %</th>
           </tr>
         </thead>
-        <tbody>
-          {users.map((user, index) => (
-            <tr key={user.id} className="text-center border-b hover:bg-gray-100">
-              <td className="p-2 border">{index + 1}</td>
-              <td className="p-2 border">{user.username}</td>
-              <td className="p-2 border">${user.total_profit.toFixed(2)}</td>
-              <td className="p-2 border">{user.overall_win_percent.toFixed(1)}%</td>
-              <td className="p-2 border">${user.profit_last_month.toFixed(2)}</td>
-              <td className="p-2 border">${user.profit_last_year.toFixed(2)}</td>
-            </tr>
-          ))}
+        <tbody className="bg-[var(--orange_color)]">
+          {users.map((user, index) => {
+            let rowStyle = "hover:bg-[var(--tan_color)] transition duration-200";
+            return (
+              <tr key={user.id} className={`text-center ${rowStyle}`}>
+                <td className="p-3 text-[var(--light_color)] font-bold">
+                  {index + 1}
+                </td>
+                <td className="p-3 text-[var(--light_color)]">
+                  {user.username}
+                </td>
+                <td className="p-3 text-[var(--light_color)]">
+                  ${user.total_profit.toFixed(2)}
+                </td>
+                <td className="p-3 text-[var(--light_color)]">
+                  {user.overall_win_percent.toFixed(1)}%
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>
-  );
+  </div>
+);
+
 }

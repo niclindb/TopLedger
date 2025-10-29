@@ -77,10 +77,18 @@ export function AuthForm({ mode, title }: AuthFormProps) {
   }
 
   return (
-    <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
-      <h1 className="text-2xl font-bold text-center mb-6">{title}</h1>
-      
-      <form onSubmit={handleSubmit} className="space-y-4">
+  <>
+    <div
+      className="max-w-md mx-auto mt-12 p-6 bg-[var(--background)] rounded-xl shadow-[0_0_30px_var(--orange_color)] border-4 border-[var(--light_color)] relative 
+      before:absolute before:inset-0 before:rounded-xl before:bg-[var(--background)] before:opacity-40 before:blur-[20px] before:pointer-events-none"
+    >
+      {/* Form Title */}
+      <h1 className="text-3xl font-fredoka font-bold text-[var(--light_color)] text-center mb-6 neon-tube">
+        {title}
+      </h1>
+
+      {/* Form */}
+      <form onSubmit={handleSubmit} className="space-y-4 relative z-10">
         <FormInput
           type="email"
           placeholder="Email"
@@ -89,17 +97,18 @@ export function AuthForm({ mode, title }: AuthFormProps) {
           required
           disabled={loading}
         />
-        {mode != "login"&&
+
+        {mode !== "login" && (
           <FormInput
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-          disabled={loading}
-        />
-        }
-        
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+            disabled={loading}
+          />
+        )}
+
         <FormInput
           type="password"
           placeholder="Password"
@@ -108,33 +117,48 @@ export function AuthForm({ mode, title }: AuthFormProps) {
           required
           disabled={loading}
         />
-        
-        <FormButton loading={loading} loadingText={labels.loading}>
-          {labels.button}
+
+        <FormButton
+          loading={loading}
+          loadingText={labels.loading}
+        >
+          { labels.button}
         </FormButton>
       </form>
-      
+
+      {/* Messages */}
       {message && (
-        <>
-        <p className={`mt-4 text-center ${
-          message.includes('successful') ? 'text-green-600' : 'text-red-600'
-        }`}>
+        <p
+          className={`mt-4 text-center ${
+            message.includes("successful") ? "text-green-400" : "text-red-400"
+          }`}
+        >
           {message}
         </p>
-        
-        </>
-      )}
-      {message.includes('taken') && (
-        <>
-        <p className='mt-4 text-center'>
-          <Link href="/login">Already have account? Sign in</Link>
-          </p></>
-      )}
-      {mode === 'login' && message.includes('Invalid') && (
-        <>
-        <p className='mt-4 text-center'><Link href="/createAccount">{`Don't Have an Account? Create One Here`}</Link></p></>
       )}
 
+      {message.includes("taken") && (
+        <p className="mt-4 text-center">
+          <Link
+            href="/login"
+            className="text-[var(--orange_color)] hover:text-[var(--blue_color)] underline"
+          >
+            Already have an account? Sign in
+          </Link>
+        </p>
+      )}
+      {mode === "login" && (
+        <div className="mt-4 text-center">
+          <Link
+            href="/createAccount"
+            className="text-[var(--tan_color)] hover:text-[var(--blue_color)] underline"
+          >
+            Don't have an account? Sign up
+          </Link>
+        </div>
+      )}
     </div>
-  )
+  </>
+);
+
 }

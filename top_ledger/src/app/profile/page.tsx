@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState, useCallback } from 'react'
 import { supabase } from '@/lib/supabase'
 import MyBets from '@/components/ui/MyBets'
+import UserProfile from '@/components/ui/UserProfile'
 
 interface ProfileData {
   id: string
@@ -66,22 +67,7 @@ useEffect(() => {
 
   return (
     <>
-    <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
-      <h1 className="text-2xl font-bold text-center mb-6">Profile</h1>
-      
-      {profile ? (
-        <div className="space-y-4">
-          <p><strong>Username:</strong> {profile.username}</p>
-          <p><strong>Total Profit:</strong> ${profile.total_profit?.toFixed(2) || '0.00'}</p>
-          <p><strong>Profit Last Month:</strong> ${profile.profit_last_month?.toFixed(2) || '0.00'}</p>
-          <p><strong>Profit Last Year:</strong> ${profile.profit_last_year?.toFixed(2) || '0.00'}</p>
-          <p><strong>Win Percentage:</strong> {(profile.overall_win_percent)?.toFixed(1) || '0.0'}%</p>
-        </div>
-      ) : (
-        <p>No profile data found</p>
-      )}
-      
-    </div>
+    <UserProfile profile={profile} />
     <MyBets/>
     </>
   )

@@ -55,54 +55,41 @@ export default function MyBets() {
   if (!user) return <p>Please log in.</p>;
 
   return (
-    <div>
-      <h2>My Bets</h2>
-      {bets.length === 0 ? (
-        <p>No bets found.</p>
-      ) : (
-        <table className="min-w-full border border-gray-300">
-  <thead className="bg-gray-200">
-    <tr>
-      <th className="p-2 border">Sport</th>
-      <th className="p-2 border">Match</th>
-      <th className="p-2 border">Bet</th>
-      <th className="p-2 border">Point</th>
-      <th className="p-2 border">Odds</th>
-      <th className="p-2 border">Stake</th>
-      <th className="p-2 border">Potential Payout</th>
-      <th className="p-2 border">Status</th>
-    </tr>
-  </thead>
-  <tbody>
-    {bets.map((bet) => (
-      <tr
-        key={bet.id}
-        className={`text-center border-b hover:bg-gray-100 ${
-          bet.status === "won"
-            ? "bg-green-100"
-            : bet.status === "lost"
-            ? "bg-red-100"
-            : bet.status === "push"
-            ? "bg-yellow-100"
-            : ""
-        }`}
-      >
-        <td className="p-2 border">{bet.sport}</td>
-        <td className="p-2 border">
-          {bet.home_team} vs {bet.away_team}
-        </td>
-        <td className="p-2 border">{bet.bet_label}</td>
-        <td className="p-2 border">{bet.bet_point ?? "-"}</td>
-        <td className="p-2 border">{bet.odds}</td>
-        <td className="p-2 border">${bet.stake.toFixed(2)}</td>
-        <td className="p-2 border">${bet.potential_payout.toFixed(2)}</td>
-        <td className="p-2 border capitalize">{bet.status}</td>
-      </tr>
-    ))}
-  </tbody>
-</table>
+    <>
+    <div className="m-4 max-w-l mx-4 p-6 bg-[var(--background)] rounded-2xl border-2 border-[var(--light_color)] shadow-lg space-y-4">
+      <h2 className="text-center text-2xl font-bold pb-2">Recent Bets</h2>
 
-      )}
+      {bets.length === 0 ? (
+        <p className="text-[var(--light_color)] text-center mt-4">No bets found.</p>
+      ) : (
+      <table className="min-w-full">
+        <thead className="bg-[var(--blue_color)] sticky top-16"> 
+          <tr className="text-xl border-b p-2"> 
+            <th>Sport</th> 
+            <th>Match</th> 
+            <th>Bet</th> 
+            <th>Point</th> 
+            <th>Odds</th> 
+            <th>Stake</th> 
+            <th>Payout</th> 
+            <th>Status</th> 
+          </tr> 
+        </thead>
+      <tbody className="bg-[var(--orange_color)]">
+        {bets.map((bet) => ( 
+          <tr key={bet.id} className="hover:bg-[var(--tan_color)] transition duration-200 text-center">
+            <td className="p-2 border">{bet.sport}</td>
+            <td className="p-2 border">{bet.home_team} vs {bet.away_team}</td>
+            <td className="p-2 border">{bet.bet_label}</td>
+            <td className="p-2 border">{bet.bet_point ?? "-"}</td>
+            <td className="p-2 border">{bet.odds}</td>
+            <td className="p-2 border">${bet.stake.toFixed(2)}</td>
+            <td className="p-2 border">${bet.potential_payout.toFixed(2)}</td>
+            <td className="p-2 border capitalize">{bet.status}</td></tr> ))}
+      </tbody>
+     </table>
+    )}
     </div>
+    </>
   );
 }

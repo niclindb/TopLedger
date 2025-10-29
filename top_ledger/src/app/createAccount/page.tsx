@@ -17,9 +17,23 @@ export default function CreateAccount() {
   }, [isAuthenticated, router])
 
   return (
-    <AuthForm
-      mode="signup"
-      title="Create Account"
-    />
+<div
+  className="relative overflow-hidden"
+  style={{
+    backgroundImage: `url('/roulete.jpg')`,
+    backgroundPosition: 'top',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    height: 'calc(100vh - 65px)' // this accounts for header height
+  }}
+>
+    {/* Overlay for form area only */}
+    <div className="absolute inset-0 bg-[var(--background)] opacity-73"></div>
+
+    {/* Form container above overlay */}
+    <div className="relative flex justify-center pt-20">
+      <AuthForm mode="signup" title="Create Account"/>
+    </div>
+  </div>
   )
 }

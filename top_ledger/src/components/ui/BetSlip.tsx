@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { supabase } from "@/lib/supabase";
 import { useState, useEffect } from "react";
@@ -46,7 +46,7 @@ export default function BetSlip({
 
     const betData = {
       gameId: selectedBet.game.id,
-        sport: selectedBet.game.sport,
+      sport: selectedBet.game.sport,
       home: selectedBet.game.home,
       away: selectedBet.game.away,
       pick: selectedBet.bet.label,
@@ -61,7 +61,7 @@ export default function BetSlip({
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${accessToken}`,
+          Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({ betData }),
       });
@@ -73,11 +73,15 @@ export default function BetSlip({
       }
       const data = await response.json();
 
-      if (data.message === 'Cannot place bet on already started game')
-          alert(`Can't place bet game already start`)
+      if (data.message === "Cannot place bet on already started game")
+        alert(`Can't place bet game already start`);
       else
-        alert(`You placed a bet on ${selectedBet.bet.label} for $${stake}. Potential payout: $${calculatePayout()}`);
-      
+        alert(
+          `You placed a bet on ${
+            selectedBet.bet.label
+          } for $${stake}. Potential payout: $${calculatePayout()}`
+        );
+
       onClose();
     } catch (error) {
       console.error("Network error placing bet:", error);
@@ -86,10 +90,11 @@ export default function BetSlip({
 
   return (
     <div className="fixed inset-0 bg-gray-800/30 backdrop-blur-sm flex items-center justify-center">
-      <div className="bg-white rounded-lg p-6 w-80 shadow-lg">
-        <h2 className="text-lg font-semibold mb-4">Bet Slip</h2>
+      <div className="bg-[var(--orange_color)] rounded-lg p-6 w-80 shadow-lg">
+        <h2 className="text-center text-lg font-semibold mb-4">Bet Slip</h2>
         <p className="mb-2">
-          <strong>Match:</strong> {selectedBet.game.home} vs {selectedBet.game.away}
+          <strong>Match:</strong> {selectedBet.game.home} vs{" "}
+          {selectedBet.game.away}
         </p>
         <p className="mb-2">
           <strong>Pick:</strong> {selectedBet.bet.label}{" "}
@@ -121,13 +126,13 @@ export default function BetSlip({
         <div className="flex justify-between">
           <button
             onClick={onClose}
-            className="px-3 py-1 rounded bg-gray-300 hover:bg-gray-400"
+            className="px-3 py-1 rounded bg-[var(--background)]"
           >
             Cancel
           </button>
           <button
             onClick={handlePlaceBet}
-            className="px-3 py-1 rounded bg-blue-500 text-white hover:bg-blue-600"
+            className="px-3 py-1 rounded bg-blue-500 text-white"
           >
             Place Bet
           </button>
