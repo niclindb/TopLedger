@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import BetSlip from "./BetSlip";
 
+
 interface Bet {
   label: string;
   point?: string;
@@ -28,29 +29,35 @@ interface UpcomingGamesSectionProps {
   games: Game[];
 }
 
-function getCategorizedBets(bets: Bet[], game: Game) {
-  let awaySpread: string = "";
-  let homeSpread: string = "";
-  let overBet: string = "";
-  let underBet: string = "";
-  let awayML: string = "";
-  let homeML: string = "";
+export function formatOdds(odds: string) {
+  const num = parseFloat(odds);
+  if (num > 0 && !odds.startsWith("+")) return `+${odds}`;
+  return odds;
+}
+
+export function getCategorizedBets(bets: Bet[], game: Game) {
+  let awaySpread: string = "N/A";
+  let homeSpread: string = "N/A";
+  let overBet: string = "N/A";
+  let underBet: string = "N/A";
+  let awayML: string = "N/A";
+  let homeML: string = "N/A";
 
   bets.forEach((b) => {
     if (!b.point) {
       // Moneyline
-      if (b.label === game.away) awayML = `${b.label} ${b.odds}`;
-      else if (b.label === game.home) homeML = `${b.label} ${b.odds}`;
+      if (b.label === game.away) awayML = formatOdds(b.odds);
+      else if (b.label === game.home) homeML = formatOdds(b.odds);
     } //Over/Under
     else if (b.label === "Over") {
-      overBet = `${b.label} ${b.point} ${b.odds}`;
+      overBet = `O ${b.point} ${formatOdds(b.odds)}`;
     } else if (b.label === "Under") {
-      underBet = `${b.label} ${b.point} ${b.odds}`;
+      underBet = `U ${b.point} ${formatOdds(b.odds)}`;
     } // Spread
     else if (b.label === game.away) {
-      awaySpread = `${b.label} ${b.point} ${b.odds}`;
+      awaySpread = `${b.point} ${formatOdds(b.odds)}`;
     } else if (b.label === game.home) {
-      homeSpread = `${b.label} ${b.point} ${b.odds}`;
+      homeSpread = `${b.point} ${formatOdds(b.odds)}`;
     }
   });
 
@@ -58,7 +65,7 @@ function getCategorizedBets(bets: Bet[], game: Game) {
 }
 
 // Function to format game date
-function formatGameDate(timestamp: string) {
+export function formatGameDate(timestamp: string) {
   const d = new Date(timestamp);
   const t = new Date();
 
@@ -82,8 +89,9 @@ export default function UpcomingGamesSection({
   } | null>(null);
 
   // Filter out past games
+  const now = new Date();
   const upcomingGames = games.filter(
-    (g) => new Date(g.startsAt) > new Date() && g.bets.length > 0
+    (g) => new Date(g.startsAt) > now && g.bets.length > 0
   );
 
   return (
@@ -125,11 +133,11 @@ export default function UpcomingGamesSection({
                   {/* Left side: date and teams */}
                   <div className="mr-6 text-center">
                     <p className="text-xs mb-2">{formatGameDate(g.startsAt)}</p>
-                    <p className="text-[var(--blue_color)] font-semibold">
+                    <p className="text-[var(--background)] font-semibold">
                       {g.away}
                     </p>
                     <p className="text-xs">At</p>
-                    <p className="text-[var(--blue_color)] font-semibold">
+                    <p className="text-[var(--background)] font-semibold">
                       {g.home}
                     </p>
                   </div>
@@ -138,7 +146,7 @@ export default function UpcomingGamesSection({
 
                   <div className="overflow-x-auto flex-1 pl-15">
                     <table className="w-full border-collapse">
-                      <thead className="text-[var(--blue_color)]">
+                      <thead className="text-[var(--background)]">
                         <tr className="border-b">
                           <th className="px-3 py-1 text-left text-sm">
                             Spread
@@ -159,8 +167,9 @@ export default function UpcomingGamesSection({
                                 onClick={() => {
                                   const bet = g.bets.find(
                                     (b) =>
-                                      `${b.label} ${b.point} ${b.odds}` ===
-                                      awaySpread
+                                      b.label === g.away &&
+                                      `${b.point} ${formatOdds(b.odds)}` ===
+                                        awaySpread
                                   );
                                   if (bet) setSelectedBet({ game: g, bet });
                                 }}
@@ -174,8 +183,9 @@ export default function UpcomingGamesSection({
                                 onClick={() => {
                                   const bet = g.bets.find(
                                     (b) =>
-                                      `${b.label} ${b.point} ${b.odds}` ===
-                                      homeSpread
+                                      b.label === g.home &&
+                                      `${b.point} ${formatOdds(b.odds)}` ===
+                                        homeSpread
                                   );
                                   if (bet) setSelectedBet({ game: g, bet });
                                 }}
@@ -193,8 +203,9 @@ export default function UpcomingGamesSection({
                                 onClick={() => {
                                   const bet = g.bets.find(
                                     (b) =>
-                                      `${b.label} ${b.point} ${b.odds}` ===
-                                      overBet
+                                      b.label === "Over" &&
+                                      `O ${b.point} ${formatOdds(b.odds)}` ===
+                                        overBet
                                   );
                                   if (bet) setSelectedBet({ game: g, bet });
                                 }}
@@ -208,8 +219,9 @@ export default function UpcomingGamesSection({
                                 onClick={() => {
                                   const bet = g.bets.find(
                                     (b) =>
-                                      `${b.label} ${b.point} ${b.odds}` ===
-                                      underBet
+                                      b.label === "Under" &&
+                                      `U ${b.point} ${formatOdds(b.odds)}` ===
+                                        underBet
                                   );
                                   if (bet) setSelectedBet({ game: g, bet });
                                 }}
@@ -226,7 +238,9 @@ export default function UpcomingGamesSection({
                                 className="cursor-pointer hover:bg-[#5c2018] px-1 rounded"
                                 onClick={() => {
                                   const bet = g.bets.find(
-                                    (b) => `${b.label} ${b.odds}` === awayML
+                                    (b) =>
+                                      b.label === g.away &&
+                                      formatOdds(b.odds) === awayML
                                   );
                                   if (bet) setSelectedBet({ game: g, bet });
                                 }}
@@ -239,7 +253,9 @@ export default function UpcomingGamesSection({
                                 className="cursor-pointer hover:bg-[#5c2018] px-1 rounded mt-1"
                                 onClick={() => {
                                   const bet = g.bets.find(
-                                    (b) => `${b.label} ${b.odds}` === homeML
+                                    (b) =>
+                                      b.label === g.home &&
+                                      formatOdds(b.odds) === homeML
                                   );
                                   if (bet) setSelectedBet({ game: g, bet });
                                 }}

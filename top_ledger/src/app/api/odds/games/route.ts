@@ -21,9 +21,9 @@ export async function GET(request: NextRequest) {
   if (!apiKey) {
     return NextResponse.json({ error: 'Missing ODDS_KEY environment variable', games: [] }, { status: 500 })
   }
-
-  const url = new URL(`https://api.the-odds-api.com/v4/sports/${encodeURIComponent(sport)}/odds`)
+  const url = new URL(`https://api.the-odds-api.com/v4/sports/upcoming/odds`)
   url.searchParams.set('regions', 'us')
+  url.searchParams.set('sport', sport)
   url.searchParams.set('oddsFormat', 'american')
   url.searchParams.set('markets', 'h2h,spreads,totals')
   url.searchParams.set('apiKey', apiKey)
@@ -54,7 +54,6 @@ export async function GET(request: NextRequest) {
             }))
         ) || [],
     }));
-
 
     return NextResponse.json({ error: null, games }, { status: 200 })
   } catch (err: any) {

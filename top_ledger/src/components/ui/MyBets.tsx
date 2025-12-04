@@ -1,14 +1,19 @@
 import { useEffect, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
+import { FaCheckCircle, FaTimesCircle, FaHourglassHalf, FaMinusCircle } from "react-icons/fa";
+
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
-export async function getCurrentSession() {
+async function getCurrentSession() {
   try {
-    const { data: { session }, error } = await supabase.auth.getSession();
+    const {
+      data: { session },
+      error,
+    } = await supabase.auth.getSession();
     if (error) {
       console.error("Error getting session:", error);
       return null;
@@ -56,40 +61,66 @@ export default function MyBets() {
 
   return (
     <>
-    <div className="m-4 max-w-l mx-4 p-6 bg-[var(--background)] rounded-2xl border-2 border-[var(--light_color)] shadow-lg space-y-4">
-      <h2 className="text-center text-2xl font-bold pb-2">Recent Bets</h2>
+      <div className="m-4 max-w-l mx-4 p-6 bg-[var(--background)] rounded-2xl border-2 border-[var(--light_color)] shadow-lg space-y-4">
+        <h2 className="text-center text-2xl font-bold pb-2">Recent Bets</h2>
 
-      {bets.length === 0 ? (
-        <p className="text-[var(--light_color)] text-center mt-4">No bets found.</p>
-      ) : (
-      <table className="min-w-full">
-        <thead className="bg-[var(--blue_color)] sticky top-16"> 
-          <tr className="text-xl border-b p-2"> 
-            <th>Sport</th> 
-            <th>Match</th> 
-            <th>Bet</th> 
-            <th>Point</th> 
-            <th>Odds</th> 
-            <th>Stake</th> 
-            <th>Payout</th> 
-            <th>Status</th> 
-          </tr> 
-        </thead>
-      <tbody className="bg-[var(--orange_color)]">
-        {bets.map((bet) => ( 
-          <tr key={bet.id} className="hover:bg-[var(--tan_color)] transition duration-200 text-center">
-            <td className="p-2 border">{bet.sport}</td>
-            <td className="p-2 border">{bet.home_team} vs {bet.away_team}</td>
-            <td className="p-2 border">{bet.bet_label}</td>
-            <td className="p-2 border">{bet.bet_point ?? "-"}</td>
-            <td className="p-2 border">{bet.odds}</td>
-            <td className="p-2 border">${bet.stake.toFixed(2)}</td>
-            <td className="p-2 border">${bet.potential_payout.toFixed(2)}</td>
-            <td className="p-2 border capitalize">{bet.status}</td></tr> ))}
-      </tbody>
-     </table>
-    )}
-    </div>
+        {bets.length === 0 ? (
+          <p className="text-[var(--light_color)] text-center mt-4">
+            No bets found.
+          </p>
+        ) : (
+          <table className="min-w-full">
+            <thead className="bg-[var(--blue_color)] sticky top-16">
+              <tr className="text-xl border-b p-2">
+                <th>League</th>
+                <th>Match</th>
+                <th>Bet</th>
+                <th>Point</th>
+                <th>Odds</th>
+                <th>Stake</th>
+                <th>Payout</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody className="bg-[var(--orange_color)]">
+              {bets.map((bet) => (
+                <tr
+                  key={bet.id}
+                  className="hover:bg-[var(--tan_color)] transition duration-200 text-center"
+                >
+                  <td className="p-2 border">
+                    {bet.sport.split("_").pop()?.toUpperCase()}
+                  </td>
+                  <td className="p-2 border">
+                    {bet.home_team} vs {bet.away_team}
+                  </td>
+                  <td className="p-2 border">{bet.bet_label}</td>
+                  <td className="p-2 border">{bet.bet_point ?? "-"}</td>
+                  <td className="p-2 border">{bet.odds > 0 ? `+${bet.odds}` : bet.odds}</td>
+                  <td className="p-2 border">${bet.stake.toFixed(2)}</td>
+                  <td className="p-2 border">
+                    ${bet.potential_payout.toFixed(2)}
+                  </td>
+                  <td className="p-2 border text-center">
+                    {bet.status === "won" && (
+                      <FaCheckCircle className="text-blue-500" />
+                    )}
+                    {bet.status === "lost" && (
+                      <FaTimesCircle className="text-orange-500" />
+                    )}
+                    {bet.status === "pending" && (
+                      <FaHourglassHalf className="text-tan_color" />
+                    )}
+                    {bet.status === "push" && (
+                      <FaMinusCircle className="text-tan_color" />
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
     </>
   );
 }

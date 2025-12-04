@@ -3,6 +3,14 @@
 import { supabase } from "@/lib/supabase";
 import { useState, useEffect } from "react";
 
+export function calculatePayout(stake: number, odds: number): string {
+  if (isNaN(odds) || stake <= 0) return ""
+  let payout = 0;
+  if (odds > 0) payout = stake * (1 + odds / 100);
+
+  else payout = stake * (1 + 100 / Math.abs(odds));
+  return payout.toFixed(2);
+}
 export default function BetSlip({
   selectedBet,
   onClose,
@@ -28,16 +36,6 @@ export default function BetSlip({
   }, [onClose]);
 
   // Convert American odds to payout multiplier
-  function calculatePayout() {
-    const odds = parseFloat(selectedBet.bet.odds);
-    if (isNaN(odds) || stake <= 0) return 0;
-
-    let payout = 0;
-    if (odds > 0) payout = stake * (1 + odds / 100);
-    else payout = stake * (1 + 100 / Math.abs(odds));
-    return payout.toFixed(2);
-  }
-
   const handlePlaceBet = async () => {
     if (!accessToken) {
       alert("No user session found.");
@@ -79,7 +77,7 @@ export default function BetSlip({
         alert(
           `You placed a bet on ${
             selectedBet.bet.label
-          } for $${stake}. Potential payout: $${calculatePayout()}`
+          } for $${stake}. Potential payout: $${calculatePayout(stake, parseFloat(selectedBet.bet.odds))}`
         );
 
       onClose();
@@ -120,7 +118,7 @@ export default function BetSlip({
         />
 
         <p className="mb-4 text-sm">
-          <strong>Potential Payout:</strong> ${calculatePayout()}
+          <strong>Potential Payout:</strong> ${calculatePayout(stake, parseFloat(selectedBet.bet.odds))}
         </p>
 
         <div className="flex justify-between">

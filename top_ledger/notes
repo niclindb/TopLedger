@@ -3,14 +3,18 @@
 3. handle leading zero on bet slip
 4. may need to move possible payout to server
 5. we need parlays. we need Player props
-6. Remove games that have already started.
+
 7. Fix being able to place a
    bet multiple times if you click the button fast. Also make it do something other then alert
 8. login with username
 9. seperate games by today/ upcoming
-10. seperate out bets by market
 11. add auth to make bet
 12. Make it look pretty
 13. total bets, bet streak
 14. Games table align equally
 15. what to do when no bet value. i.e a spread isn't available
+16. fix sport to name instead of id under myBets
+17. make it mobile friendly
+18. Highlight the logged-in user’s row for personalization.
+19. 404 page
+20. skeletons

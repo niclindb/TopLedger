@@ -1,4 +1,4 @@
-export default function Header() {
+export default function Stats() {
     return (
         <section className="py-16 bg-[#0F0C24] flex flex-wrap justify-center gap-8">
         {[

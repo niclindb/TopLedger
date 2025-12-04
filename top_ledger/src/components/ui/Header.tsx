@@ -30,7 +30,7 @@ export default function Header() {
             href={item.to}
             className="transition-colors duration-300 hover:text-[var(--orange_color)]"
             onClick={() => {
-              if (item.label === "Log Out") { // only this link triggers the function
+              if (item.label === "Log Out") { 
                 supabase.auth.signOut()
               }
             }}
