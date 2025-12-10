@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
-import { FaCheckCircle, FaTimesCircle, FaHourglassHalf, FaMinusCircle } from "react-icons/fa";
-
+import {
+  FaCheckCircle,
+  FaTimesCircle,
+  FaHourglassHalf,
+  FaMinusCircle,
+} from "react-icons/fa";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -96,23 +100,29 @@ export default function MyBets() {
                   </td>
                   <td className="p-2 border">{bet.bet_label}</td>
                   <td className="p-2 border">{bet.bet_point ?? "-"}</td>
-                  <td className="p-2 border">{bet.odds > 0 ? `+${bet.odds}` : bet.odds}</td>
+                  <td className="p-2 border">
+                    {bet.odds > 0 ? `+${bet.odds}` : bet.odds}
+                  </td>
                   <td className="p-2 border">${bet.stake.toFixed(2)}</td>
                   <td className="p-2 border">
                     ${bet.potential_payout.toFixed(2)}
                   </td>
                   <td className="p-2 border text-center">
                     {bet.status === "won" && (
-                      <FaCheckCircle className="text-blue-500" />
+                      <img
+                        src="/batman.svg"
+                        alt="Batman"
+                        className="inline-block w-8 h-6"
+                      />
                     )}
                     {bet.status === "lost" && (
-                      <FaTimesCircle className="text-orange-500" />
+                      <FaTimesCircle className="inline-block text-orange-500" />
                     )}
                     {bet.status === "pending" && (
-                      <FaHourglassHalf className="text-tan_color" />
+                      <FaHourglassHalf className="inline-block text-tan_color" />
                     )}
                     {bet.status === "push" && (
-                      <FaMinusCircle className="text-tan_color" />
+                      <FaMinusCircle className="inline-block text-tan_color" />
                     )}
                   </td>
                 </tr>
