@@ -109,16 +109,16 @@ export default function MyBets() {
                   </td>
                   <td className="p-2 border text-center">
                     {bet.status === "won" && (
-                      <FaCheckCircle className="inline-block text-blue_color" />
+                      <FaCheckCircle className="inline-block text-[var(--blue_color)]" />
                     )}
                     {bet.status === "lost" && (
-                      <FaTimesCircle className="inline-block text-orange-500" />
+                      <FaTimesCircle className="inline-block text-[var(--orange_color)]" />
                     )}
                     {bet.status === "pending" && (
-                      <FaHourglassHalf className="inline-block text-tan_color" />
+                      <FaHourglassHalf className="inline-block text-[var(--tan_color)]" />
                     )}
                     {bet.status === "push" && (
-                      <FaMinusCircle className="inline-block text-tan_color" />
+                      <FaMinusCircle className="inline-block text-[var(--tan_color)]" />
                     )}
                   </td>
                 </tr>
