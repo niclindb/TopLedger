@@ -145,7 +145,7 @@ export async function GET() {
     }
 
     if (bets && bets.length > 0) {
-        await Promise.all(
+        await Promise.all(  
           bets.map(async (bet) => {
             try {
             

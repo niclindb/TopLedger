@@ -109,11 +109,7 @@ export default function MyBets() {
                   </td>
                   <td className="p-2 border text-center">
                     {bet.status === "won" && (
-                      <img
-                        src="/batman.svg"
-                        alt="Batman"
-                        className="inline-block w-8 h-6"
-                      />
+                      <FaCheckCircle className="inline-block text-blue_color" />
                     )}
                     {bet.status === "lost" && (
                       <FaTimesCircle className="inline-block text-orange-500" />

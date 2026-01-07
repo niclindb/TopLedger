@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import BetSlip from "./BetSlip";
 
-
 interface Bet {
   label: string;
   point?: string;
