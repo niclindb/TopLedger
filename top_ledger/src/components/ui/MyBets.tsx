@@ -112,7 +112,7 @@ export default function MyBets() {
                       <FaCheckCircle className="inline-block text-[var(--blue_color)]" />
                     )}
                     {bet.status === "lost" && (
-                      <FaTimesCircle className="inline-block text-[var(--orange_color)]" />
+                      <FaTimesCircle className="inline-block text-red-500" />
                     )}
                     {bet.status === "pending" && (
                       <FaHourglassHalf className="inline-block text-[var(--tan_color)]" />
