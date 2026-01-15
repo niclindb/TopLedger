@@ -1,2 +1,2 @@
 # TopLedger
-Sports betting tracking and leaderboard.
+Sports betting tracking and leaderboard using Typescript and React.
